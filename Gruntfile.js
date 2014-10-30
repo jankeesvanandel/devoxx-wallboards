@@ -292,7 +292,7 @@ module.exports = function (grunt) {
             src: [
               '*.{ico,txt}',
               'config.js',
-              'bower_components/**/*',
+              '<%= yeoman.app %>/bower_components/**/*',
               'images/{,*/}*.{gif,webp}',
               'images/tracks/mobile/*',
               'styles/*.{eot,svg,ttf,woff}',
@@ -311,7 +311,7 @@ module.exports = function (grunt) {
             src: [
               '*.{ico,txt}',
               '*.hbr.html',
-              'bower_components/**/*',
+              '<%= yeoman.app %>/bower_components/**/*',
               'images/**/*',            
               'styles/*',
               'images_dummy/*',
