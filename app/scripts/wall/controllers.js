@@ -13,7 +13,7 @@ wallApp.controller('NoticeController', [ '$scope', function ($scope) {
 
     function cycleNotices() {
 
-        $scope.$apply(function(){
+        $scope.$apply(function () {
 
             if (self.notices.length == 0) {
                 $scope.notice = null;
@@ -43,10 +43,10 @@ wallApp.controller('TwallController', ['$http', '$scope', function ($http, $scop
     $scope.scrollClass = "";
     this.blacklist = [];
 
-    this.refreshRemoteData = function() {
+    this.refreshRemoteData = function () {
 
         $http.get(baseUri + "twitter/devoxx")
-            .then(function(data){
+            .then(function (data) {
 
                 if ("" == data.data) {
                     console.error('Failed to call Twitter REST');
@@ -70,8 +70,8 @@ wallApp.controller('TwallController', ['$http', '$scope', function ($http, $scop
             });
     };
 
-    this.tweetQueueProcessor = function() {
-        $scope.$apply(function(){
+    this.tweetQueueProcessor = function () {
+        $scope.$apply(function () {
 
             // Initialisation
             if ($scope.tweets.length < MAX) {
@@ -91,7 +91,7 @@ wallApp.controller('TwallController', ['$http', '$scope', function ($http, $scop
 
         function shiftTweets() {
 
-            $scope.$apply(function(){
+            $scope.$apply(function () {
                 $scope.tweets.shift();
                 $scope.scrollClass = "";
             });
@@ -117,10 +117,10 @@ function LocalStorageController() {
 
     var self = this;
 
-    this.hasDay = function(dayNr) {
+    this.hasDay = function (dayNr) {
         try {
             return localStorage.getItem(key(dayNr)) != null;
-        } catch(e) {
+        } catch (e) {
             console.error('Error HAS day ' + dayNr + ' in LocalStorage: ' + e.message);
         }
         return false;
@@ -131,19 +131,19 @@ function LocalStorageController() {
      * @param dayNr the Day NR
      * @param dayScheduleItems ScheduleItems Array or JSON stringified
      */
-    this.hasChanged = function(dayNr, dayScheduleItems) {
+    this.hasChanged = function (dayNr, dayScheduleItems) {
         try {
             var json = typeof(dayScheduleItems) == "string" ? dayScheduleItems : JSON.stringify(dayScheduleItems);
             var hashFromJson = md5(json);
             var hashFromStorage = localStorage.getItem(keymd5(dayNr));
             return hashFromStorage != hashFromJson;
-        } catch(e) {
+        } catch (e) {
             console.error('Error MD5 day ' + dayNr + ' from LocalStorage: ' + e.message);
         }
         return true;
     };
 
-    this.getDay = function(dayNr) {
+    this.getDay = function (dayNr) {
         try {
             console.log('GET day ' + dayNr + ' from LocalStorage');
             var data = localStorage.getItem(key(dayNr));
@@ -152,7 +152,7 @@ function LocalStorageController() {
             } else {
                 return JSON.parse(data);
             }
-        } catch(e) {
+        } catch (e) {
             console.error('Error GET day ' + dayNr + ' from LocalStorage: ' + e.message);
         }
     };
@@ -163,7 +163,7 @@ function LocalStorageController() {
      * @param dayScheduleItems ScheduleItems Array
      * @return TRUE if the data was changed, FALSE if it's not changed or stored
      */
-    this.setDay = function(dayNr, dayScheduleItems) {
+    this.setDay = function (dayNr, dayScheduleItems) {
         try {
             console.log('SET day ' + dayNr + ' to LocalStorage');
             var json = JSON.stringify(dayScheduleItems);
@@ -175,22 +175,22 @@ function LocalStorageController() {
                 logStorageSize();
                 return true;
             }
-        } catch(e) {
+        } catch (e) {
             console.error('Error SET day ' + dayNr + ' to LocalStorage: ' + e.message);
         }
         return false;
     };
 
-    this.setSpeakers = function(speakers) {
+    this.setSpeakers = function (speakers) {
         try {
             localStorage.setItem(SPEAKER_KEY, JSON.stringify(speakers));
             logStorageSize();
-        } catch(e) {
+        } catch (e) {
             console.error('ERROR Storing Speakers error: ' + e.message);
         }
     };
 
-    this.getSpeakers = function() {
+    this.getSpeakers = function () {
         try {
             var data = localStorage.getItem(SPEAKER_KEY);
             if (data == undefined) {
@@ -198,16 +198,16 @@ function LocalStorageController() {
             } else {
                 return JSON.parse(data);
             }
-        } catch(e) {
+        } catch (e) {
             console.error('ERROR Loading Speakers error: ' + e.message);
         }
     };
 
-    this.clear = function() {
+    this.clear = function () {
         try {
             localStorage.clear();
             logStorageSize();
-        } catch(e) {
+        } catch (e) {
             console.error('Error clearing LocalStorage: ' + e.message);
         }
     };
@@ -237,7 +237,7 @@ function LocalStorageController() {
             } else {
                 return JSON.parse(data);
             }
-        } catch(e) {
+        } catch (e) {
             console.error('ERROR Loading Speakers error: ' + e.message);
         }
     };
@@ -296,11 +296,11 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
     setTimeout(init, 0); // Schedule init() call after Object is loaded.
     function init() {
 
-        $scope.$apply(function(){
+        $scope.$apply(function () {
 
-            var onDone = function() {
+            var onDone = function () {
 
-                if ( (!lsc.hasDay(currentDay)) || (! lsc.hasSchedule())) {
+                if ((!lsc.hasDay(currentDay)) || (!lsc.hasSchedule())) {
                     self.refreshRemoteData();
                 } else {
                     currentData = lsc.getDay(currentDay);
@@ -346,7 +346,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
         });
     }
 
-    this.nowAndNextTimer = function() {
+    this.nowAndNextTimer = function () {
         currentTime = new Date();
         var dayNr = day(currentTime);
         if (dayNr != currentDay) {
@@ -360,10 +360,10 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
     var MINUTES_1 = 1000 * 60;
     setInterval(self.nowAndNextTimer, MINUTES_1);
 
-    this.refreshRemoteData = function() {
+    this.refreshRemoteData = function () {
 
         $http.get(baseUriV1 + "events/10/schedule")
-            .then(function(data, code) {
+            .then(function (data, code) {
                 if ("" == data.data) {
                     console.error('Failed to call CFP REST');
                     return;
@@ -376,7 +376,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
                 var group = [];
                 var itemDay = 1;
-                tak.forEach(function(item) {
+                tak.forEach(function (item) {
                     if (item.day != itemDay) {
                         storeDay(itemDay, group);
                         itemDay = item.day;
@@ -421,7 +421,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
         function defineSlots(items) {
             var slots = [];
-            items.forEach(function(item) {
+            items.forEach(function (item) {
 
                 var slot = item.type == KEYNOTE ? KEYNOTE : item.time;
 
@@ -443,7 +443,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
         function nowAndNextSlot(slots) {
             var nowAndNext = [];
             var now = currentTime;
-            slots.forEach(function(slot) {
+            slots.forEach(function (slot) {
 
                 var slotDate;
                 var match = false;
@@ -466,7 +466,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                 return [];
             }
             var items = [];
-            currentData.forEach(function(item) {
+            currentData.forEach(function (item) {
                 if ((time == KEYNOTE && item.type == KEYNOTE) || (time == item.time)) {
                     items.push(item);
                 }
@@ -479,7 +479,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
     function filterTalksAndKeynotes(data, speakers) {
         var talks = [];
 
-        data.forEach(function(item) {
+        data.forEach(function (item) {
 
             if (item.kind.match(/Talk|Keynote/)) {
 
@@ -495,15 +495,15 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
 
         talks = _.sortBy(talks, "date");
-        _.each(talks, function(si){
-            console.log("Day: "+ si.day + " Room: " + si.room + " Time: " + si.time + " Title: " + si.title + " Speakers: " + si.speakers + " SpeakerImg: " + si.speakerImgUri);
+        _.each(talks, function (si) {
+            console.log("Day: " + si.day + " Room: " + si.room + " Time: " + si.time + " Title: " + si.title + " Speakers: " + si.speakers + " SpeakerImg: " + si.speakerImgUri);
         });
 
         function findSpeakerImageUrl(id) {
             if (id) {
                 var speakerId = parseInt(id);
                 var speakerUrl = null;
-                speakers.forEach(function(speaker) {
+                speakers.forEach(function (speaker) {
                     if (speaker.id == speakerId) {
                         speakerUrl = speaker.imageUrl;
                     }
@@ -518,19 +518,19 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
 }]);
 
-wallApp.controller('MostPopularOfWeekController',["$scope", "$timeout","VotingService", function($scope, $timeout, VotingService) {
+wallApp.controller('MostPopularOfWeekController', ["$scope", "$timeout", "VotingService", function ($scope, $timeout, VotingService) {
 
-    function enrich (talks) {
+    function enrich(talks) {
         var schedule = lsc.getSchedule();
-        angular.forEach(talks, function(value, key){
+        angular.forEach(talks, function (value, key) {
             value.scheduleItem = schedule[value.talkId];
         });
         return talks;
     }
 
-    function filterKeyNotes (talks) {
+    function filterKeyNotes(talks) {
         var filtered = [];
-        angular.forEach(talks, function(value, key){
+        angular.forEach(talks, function (value, key) {
             if ((value.scheduleItem) && (value.scheduleItem.type != "Keynote")) {
                 filtered.push(value);
             }
@@ -540,29 +540,29 @@ wallApp.controller('MostPopularOfWeekController',["$scope", "$timeout","VotingSe
 
     var refreshInterval = 30000;
 
-    var refresh = function() {
+    var refresh = function () {
         $timeout(function () {
-            $scope.$apply(function()  {
+            $scope.$apply(function () {
                 try {
-                    VotingService.topOfWeek(function(err, data) {
+                    VotingService.topOfWeek(function (err, data) {
                         if (err) {
                             console.log("In Error");
                         } else {
                             var filteredData = filterKeyNotes(enrich(data));
-                            $scope.topTalksOfWeek = filteredData.slice(0,3);
+                            $scope.topTalksOfWeek = filteredData.slice(0, 3);
                             $scope.hasTopTalksOfWeek = (filteredData.length > 0);
                         }
                     });
-                    VotingService.topOfToday(function(err, data) {
+                    VotingService.topOfToday(function (err, data) {
                         if (err) {
                             console.log("In Error");
                         } else {
                             var filteredData = filterKeyNotes(enrich(data));
-                            $scope.topTalksOfToday = filteredData.slice(0,4);
+                            $scope.topTalksOfToday = filteredData.slice(0, 4);
                             $scope.hasTopTalksOfToday = (filteredData.length > 0);
                         }
                     });
-                } catch(e) {
+                } catch (e) {
                     console.log(e);
                 }
 
