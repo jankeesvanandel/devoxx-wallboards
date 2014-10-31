@@ -4,7 +4,7 @@ wallApp.controller('NoticeController', [ '$scope', function ($scope) {
 
     var self = this;
 
-    this.notices = [ "Wifi SSID: devoxx14 password: devoxx14" ]; // <- Add String messages here
+    this.notices = [ "WIFI SSID: devoxx14 password: devoxx14" ]; // <- Add String messages here
 
     setInterval(cycleNotices, 10 * 1000);
     var noticeIndex = 0;
