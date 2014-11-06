@@ -161,7 +161,7 @@ function LocalStorageController() {
      * Set the ScheduleItems for a day.
      * @param dayNr day NR
      * @param dayScheduleItems ScheduleItems Array
-     * @return TRUE if the data was changed, FALSE if it's not changed or stored
+     * @return boolean true if the data was changed, false if it's not changed or stored
      */
     this.setDay = function (dayNr, dayScheduleItems) {
         try {
@@ -268,8 +268,10 @@ function LocalStorageController() {
     }
 }
 
-var scheduleLoadedDefer = $.Deferred();
-var scheduleLoaded = scheduleLoadedDefer.promise();
+var scheduleLoaded = {
+    defer: null,
+    promise: null
+};
 
 /**
  * ScheduleController, instantiated by AngularJS.
@@ -279,6 +281,8 @@ var scheduleLoaded = scheduleLoadedDefer.promise();
  */
 wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($http, $scope, $q) {
 
+    scheduleLoaded.defer = $q.defer();
+    scheduleLoaded.promise = scheduleLoaded.defer.promise;
     window.sc = this; // Global var to interact with from console
 
     var self = this;
@@ -307,7 +311,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                     currentData = lsc.getDay(currentDay);
                     updateModels();
                     console.log("Resolve after speakers");
-                    scheduleLoadedDefer.resolve();
+                    scheduleLoaded.defer.resolve();
                 }
 
                 var MINUTES_10 = 1000 * 60 * 10;
@@ -315,6 +319,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
             };
 
+            //onDone();
             preLoadSpeakerImageUrls(onDone);
 
             function preLoadSpeakerImageUrls(done) {
@@ -395,7 +400,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                     }
                 }
 
-            }).then(scheduleLoadedDefer.resolve());
+            }).then(scheduleLoaded.defer.resolve());
     };
 
     function updateModels() {
@@ -521,10 +526,9 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
         return talks;
     }
-
 }]);
 
-wallApp.controller('MostPopularOfWeekController', ["$scope", "$timeout", "VotingService", function ($scope, $timeout, VotingService) {
+wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", function ($scope, $timeout, VotingService) {
 
     function enrich(talks) {
         var schedule = lsc.getSchedule();
@@ -549,35 +553,26 @@ wallApp.controller('MostPopularOfWeekController', ["$scope", "$timeout", "Voting
     var refresh = function () {
         $timeout(function () {
             $scope.$apply(function () {
-                try {
-                    VotingService.topOfWeek(function (err, data) {
-                        if (err) {
-                            console.log("In Error");
-                        } else {
-                            var filteredData = filterKeyNotes(enrich(data));
-                            $scope.topTalksOfWeek = filteredData.slice(0, 3);
-                            $scope.hasTopTalksOfWeek = (filteredData.length > 0);
-                        }
-                    });
-                    VotingService.topOfToday(function (err, data) {
-                        if (err) {
-                            console.log("In Error");
-                        } else {
-                            var filteredData = filterKeyNotes(enrich(data));
-                            $scope.topTalksOfToday = filteredData.slice(0, 4);
-                            $scope.hasTopTalksOfToday = (filteredData.length > 0);
-                        }
-                    });
-                } catch (e) {
-                    console.log(e);
-                }
-
+                VotingService.topOfWeek().then(function (data) {
+                    var filteredData = filterKeyNotes(enrich(data));
+                    $scope.topTalksOfWeek = filteredData.slice(0, 3);
+                    $scope.hasTopTalksOfWeek = (filteredData.length > 0);
+                }, function(err) {
+                    console.log("In Error");
+                });
+                VotingService.topOfDay().then(function (data) {
+                    var filteredData = filterKeyNotes(enrich(data));
+                    $scope.topTalksOfDay = filteredData.slice(0, 4);
+                    $scope.hasTopTalksOfDay = (filteredData.length > 0);
+                }, function(err) {
+                    console.log("In Error");
+                });
             });
             refresh();
         }, refreshInterval);
     };
 
-    scheduleLoaded.then(refresh);
+    scheduleLoaded.promise.then(refresh);
 } ]);
 
 wallApp.controller('GameLeaderboardController', ["$scope", "$timeout", "GameLeaderboardService", function ($scope, $timeout, GameLeaderboardService) {
