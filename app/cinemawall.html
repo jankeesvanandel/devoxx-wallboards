@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/keyframes-tweets.css">
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/tweetwall-less.css -->
-    <link rel="stylesheet" href="styles/wall.css">
+    <link rel="stylesheet" href="styles/wall2.css">
     <!-- endbuild -->
 
     <!-- TODO: scripts to bottom of the page (performance) -->
@@ -65,59 +65,243 @@
             </div>
         </div>
 
-        <div id="schedule" ng-controller="ScheduleController">
+        <style type="text/css">
 
-            <div ng-class="scrollClass">
+            * {
+                font-family: 'Lato';
+            }
 
-                <div class="container">
-                    <div class="border">
-                        <div ng-repeat="item in scheduleNow">
+            #carousel {
+                width: 750px;
+                height: 700px;
+                top: 70px;
+                right: 50px;
+                position: absolute;
+                overflow: hidden;
+            }
+
+            #carousel > .panes {
+                width: 400%;
+                left: 0;
+                list-style: none;
+                position: relative;
+                overflow: hidden;
+                margin: 0; padding: 0;
+
+                -moz-animation: carouselAnim 30s infinite;
+                -webkit-animation: carouselAnim 30s infinite;
+                animation: carouselAnim 30s infinite;
+            }
+
+            #carousel > .panes > li {
+                position: relative;
+                float: left;
+                width: 25%;
+            }
+
+            @keyframes carouselAnim {
+                0%    { left:0; }
+                20%   { left:0; }
+                25%   { left:-100%; }
+                45%   { left:-100%; }
+                50%   { left:-200%; }
+                70%   { left:-200%; }
+                75%   { left:-300%; }
+                95%   { left:-300%; }
+                100%  { left:0; }
+            }
+
+            @-moz-keyframes carouselAnim {
+                0%    { left:0; }
+                20%   { left:0; }
+                25%   { left:-100%; }
+                45%   { left:-100%; }
+                50%   { left:-200%; }
+                70%   { left:-200%; }
+                75%   { left:-300%; }
+                95%   { left:-300%; }
+                100%  { left:0; }
+            }
+
+            @-webkit-keyframes carouselAnim {
+                0%    { left:0; }
+                20%   { left:0; }
+                25%   { left:-100%; }
+                45%   { left:-100%; }
+                50%   { left:-200%; }
+                70%   { left:-200%; }
+                75%   { left:-300%; }
+                95%   { left:-300%; }
+                100%  { left:0; }
+            }
+
+            .panes > li h1,
+            .panes > li h2 {
+                color: #ebeb00;
+                font-weight: bolder;
+                text-shadow: #ebeb00 0 0 2px;
+                -webkit-text-stroke: 2px #ebeb00;
+                letter-spacing: 5px;
+                text-align: center;
+            }
+
+            .listEntry {
+                margin: 3px 5px;
+                position: relative;
+                background-color: #000;
+                color: #fff;
+                height: 75px;
+                clear: both;
+                overflow-y: hidden;
+                border: 1px solid #ebeb00;
+                -webkit-border-radius: 10px;
+                -webkit-box-shadow: #ebeb00 0 0 5px;
+            }
+
+            .listEntry .room {
+                float: left;
+                width: 60px;
+                position: relative;
+                font-size: 3em;
+                margin: 8px 0 0;
+                padding: 0;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .listEntry .image {
+                margin-top: 4px;
+                margin-right: 5px;
+                float: left;
+            }
+
+            .listEntry .image img {
+                width: 60px;
+                height: 66px;
+            }
+
+            .listEntry .text {
+                vertical-align: middle;
+                font-size: 1.3em;
+                word-wrap: normal;
+                margin: 3px;
+            }
+
+            .listEntry .highlight {
+                color: #ebeb00;
+            }
+
+            .listEntry .warning {
+                color: orange;
+            }
+
+            .listEntry .error {
+                color: #ff4520;
+            }
+
+            .lastDevoxxDay {
+                text-align: center;
+            }
+
+            .lastDevoxxDay p {
+                margin: 20px;
+                font-size: 1.5em;
+                color: #fff;
+            }
+
+            .listEntry .gamePoints {
+                float: left;
+                width: 200px;
+                position: relative;
+                font-size: 3em;
+                margin: 8px 0 0;
+                padding: 0;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .listEntry .gameUsername {
+                width: 280px;
+                float: left;
+            }
+
+            .listEntry .beaconsAndAchievements {
+                float: right;
+                width: 170px;
+                font-size: 1.3em;
+                word-wrap: normal;
+                margin: 3px;
+            }
+
+        </style>
+
+        <div id="carousel" ng-controller="ScheduleController">
+
+            <ul class="panes">
+                <li>
+                    <h1>Today's schedule</h1>
+                    <div ng-repeat="item in scheduleNow" class="listEntry">
+                        <span class="room">{{item.room}}</span>
+                        <span class="image"><img ng-src="{{item.speakerImgUrl}}" /></span>
+                        <div class="text"><span class="highlight">{{item.time}}</span> {{item.title}} <span class="warning">{{item.speakers}}</span></div>
+                    </div>
+                </li>
+
+                <li>
+                    <h1>Tomorrow's schedule</h1>
+                    <div ng-switch="lastDevoxxDay">
+                        <div ng-repeat="item in scheduleNext" ng-switch-when="false" class="listEntry">
                             <div class="room">{{item.room}}</div>
                             <div class="image"><img ng-src="{{item.speakerImgUrl}}" /></div>
-                            <div class="talk"><span class="time">{{item.time}}</span> {{item.title}} <span class="speaker">{{item.speakers}}</span></div>
+                            <div class="text"><span class="highlight">{{item.time}}</span> {{item.title}} <span class="warning">{{item.speakers}}</span></div>
                         </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="border">
-                        <div ng-switch="lastDevoxxDay">
-                            <div ng-repeat="item in scheduleNext" ng-switch-when="false">
-                                <div class="room">{{item.room}}</div>
-                                <div class="image"><img ng-src="{{item.speakerImgUrl}}" /></div>
-                                <div class="talk"><span class="time">{{item.time}}</span> {{item.title}} <span class="speaker">{{item.speakers}}</span></div>
-                            </div>
-                            <div ng-switch-default="">
-                                <div>
-                                    <h1>Last Devoxx day.</h1>
-                                    <h1>See you next year!</h1>
-                                </div>
+                        <div ng-switch-default="">
+                            <div class="lastDevoxxDay">
+                                <p>Today is the last Devoxx day. We hope to see you again next year!</p>
+                                <img src="images/duke_wave.png" width="200" height="360">
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="container" ng-controller="VotingController">
-                    <div class="border" style="background-color: #008000">
-                        <h1 class="bestof" ng-show="hasTopTalksOfWeek">Top Talks Overall</h1>
-                        <div ng-repeat="talk in topTalksOfWeek">
+                </li>
+
+                <li>
+                    <div ng-controller="VotingController">
+                        <h1>Top talks</h1>
+                        <h2 ng-hide="hasTopTalksOfWeek || hasTopTalksOfDay"><br>Loading...</h2>
+                        <h2 class="bestof" ng-show="hasTopTalksOfWeek">Top Talks Overall</h2>
+                        <div ng-repeat="talk in topTalksOfWeek" class="listEntry">
                             <div class="room">{{$index + 1}}</div>
                             <div class="image"><img ng-src="{{talk.scheduleItem.speakerImgUrl}}" /></div>
-                            <div class="talk"><span class="time">{{talk.likes}}</span> {{talk.scheduleItem.title}} <span class="speaker">{{talk.scheduleItem.speakers}}</span></div>
+                            <div class="text"><span class="highlight">{{talk.likes}}</span> {{talk.scheduleItem.title}} <span class="warning">{{talk.scheduleItem.speakers}}</span></div>
                         </div>
-                        <h1 class="bestof" ng-show="hasTopTalksOfDay">Today's Top Talks</h1>
-                        <div ng-repeat="talk in topTalksOfDay">
+                        <h2 class="bestof" ng-show="hasTopTalksOfDay">Today's Top Talks</h2>
+                        <div ng-repeat="talk in topTalksOfDay" class="listEntry">
                             <div class="room">{{$index + 1}}</div>
                             <div class="image"><img ng-src="{{talk.scheduleItem.speakerImgUrl}}" /></div>
-                            <div class="talk"><span class="time">{{talk.likes}}</span> {{talk.scheduleItem.title}} <span class="speaker">{{talk.scheduleItem.speakers}}</span></div>
+                            <div class="text"><span class="highlight">{{talk.likes}}</span> {{talk.scheduleItem.title}} <span class="warning">{{talk.scheduleItem.speakers}}</span></div>
                         </div>
                     </div>
-                </div>
-                <div class="container" ng-controller="GameLeaderboardController">
-                    <div class="border" style="background-color: red">
-                        <h1 class="bestof" ng-show="hasTopTalksOfWeek">Top Talks Overall</h1>
-                        <p>test</p>
+                </li>
+
+                <li>
+                    <div ng-controller="GameLeaderboardController">
+                        <h1>Overall game leaderboard</h1>
+                        <p ng-hide="leaderboard">No data</p>
+                        <div ng-repeat="lb in leaderboard|limitTo:7" class="listEntry">
+                            <div class="gamePoints">{{lb.points}}</div>
+                            <div class="image"><img ng-src="{{lb.pictureUrl}}" /></div>
+                            <div class="text error gameUsername">
+                                 {{lb.name}}
+                            </div>
+                            <div class="beaconsAndAchievements">
+                                <p class="warning">Unlocked</p>
+                                <p><span class="highlight">{{lb.numberOfBeacons}}</span> beacons</p>
+                                <p><span class="highlight">{{lb.numberOfAchievements}}</span> achievements</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </li>
+            </ul>
 
         </div>
 
