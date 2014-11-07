@@ -330,9 +330,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', [
         'clean:server',
-        'coffee:dist',
+        //'coffee:dist',
         'compass:server',
-        'recess:dist',
+        //'recess:dist',
+        'build',
         'livereload-start',
         'connect:livereload',
         'open:server',

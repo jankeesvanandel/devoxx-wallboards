@@ -286,6 +286,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
     $scope.scheduleNow = [];
     $scope.scheduleNext = [];
     $scope.scrollClass = "";
+    $scope.lastDevoxxDay = false;
 
     var speakers = [];
 
@@ -413,7 +414,12 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
         $scope.scheduleNow = filterTime(nowAndNext[0]);
         $scope.scheduleNext = filterTime(nowAndNext[1]);
-        $scope.scrollClass = $scope.scheduleNext.length != 0 ? "sidescroll" : "";
+        if ($scope.scheduleNext.length != 0) {
+            $scope.scrollClass = "sidescroll";
+        } else {
+            $scope.scrollClass = "";
+            $scope.lastDevoxxDay = true;
+        }
 
         console.log("Slots", slots, "NowAndNext", nowAndNext);
         console.log("NOW:", $scope.scheduleNow);
@@ -574,3 +580,28 @@ wallApp.controller('MostPopularOfWeekController', ["$scope", "$timeout", "Voting
     scheduleLoaded.then(refresh);
 } ]);
 
+wallApp.controller('GameLeaderboardController', ["$scope", "$timeout", "GameLeaderboardService", function ($scope, $timeout, GameLeaderboardService) {
+    GameLeaderboardService.loadLeaderboard().then(function(data) {
+        $scope.leaderboard = data;
+    }, function(error) {
+        $scope.leaderboard = [];
+        console.log('Error loading leaderboard: ', error);
+    });
+}]);
+
+wallApp.factory('GameLeaderboardService', ['$http', '$q', function($http, $q) {
+    var load = function() {
+        var defer = $q.defer();
+        $http.get('/blebackend/leaderboard')
+            .success(function(data) {
+                defer.resolve(data);
+            }).error(function(error) {
+                defer.reject(error);
+            });
+        return defer.promise;
+    };
+
+    return {
+        loadLeaderboard: load
+    };
+}]);
