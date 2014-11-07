@@ -290,7 +290,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
     $scope.scheduleNow = [];
     $scope.scheduleNext = [];
     $scope.scrollClass = "";
-    $scope.lastDevoxxDay = false;
+    $scope.loading = true;
 
     var speakers = [];
 
@@ -310,6 +310,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                 } else {
                     currentData = lsc.getDay(currentDay);
                     updateModels();
+                    $scope.loading = false;
                     console.log("Resolve after speakers");
                     scheduleLoaded.defer.resolve();
                 }
@@ -423,7 +424,6 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
             $scope.scrollClass = "sidescroll";
         } else {
             $scope.scrollClass = "";
-            $scope.lastDevoxxDay = true;
         }
 
         console.log("Slots", slots, "NowAndNext", nowAndNext);
@@ -576,10 +576,13 @@ wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", f
 } ]);
 
 wallApp.controller('GameLeaderboardController', ["$scope", "$timeout", "GameLeaderboardService", function ($scope, $timeout, GameLeaderboardService) {
+    $scope.loading = true;
     GameLeaderboardService.loadLeaderboard().then(function(data) {
         $scope.leaderboard = data;
+        $scope.loading = false;
     }, function(error) {
         $scope.leaderboard = [];
+        $scope.loading = false;
         console.log('Error loading leaderboard: ', error);
     });
 }]);
