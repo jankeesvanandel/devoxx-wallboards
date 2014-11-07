@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/keyframes-tweets.css">
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/tweetwall-less.css -->
-    <link rel="stylesheet" href="styles/wall2.css">
+    <link rel="stylesheet" href="styles/wall.css">
     <!-- endbuild -->
 
 </head>
@@ -213,8 +213,9 @@
 
             <ul class="panes">
                 <li>
-                    <h1>Today's schedule</h1>
-                    <div ng-repeat="item in scheduleNow" class="listEntry">
+                    <h1>Current talks</h1>
+                    <h2 ng-show="loading">Loading...</h2>
+                    <div ng-repeat="item in scheduleNow" class="listEntry" ng-hide="loading">
                         <span class="room">{{item.room}}</span>
                         <span class="image"><img ng-src="{{item.speakerImgUrl}}" /></span>
                         <div class="text"><span class="highlight">{{item.time}}</span> {{item.title}} <span class="warning">{{item.speakers}}</span></div>
@@ -222,33 +223,27 @@
                 </li>
 
                 <li>
-                    <h1>Tomorrow's schedule</h1>
-                    <div ng-switch="lastDevoxxDay">
-                        <div ng-repeat="item in scheduleNext" ng-switch-when="false" class="listEntry">
-                            <div class="room">{{item.room}}</div>
-                            <div class="image"><img ng-src="{{item.speakerImgUrl}}" /></div>
-                            <div class="text"><span class="highlight">{{item.time}}</span> {{item.title}} <span class="warning">{{item.speakers}}</span></div>
-                        </div>
-                        <div ng-switch-default="">
-                            <div class="lastDevoxxDay">
-                                <p>Today is the last Devoxx day. We hope to see you again next year!</p>
-                                <img src="images/duke_wave.png" width="200" height="360">
-                            </div>
-                        </div>
+                    <h1>Next up</h1>
+                    <h2 ng-show="loading">Loading...</h2>
+                    <div ng-repeat="item in scheduleNext" class="listEntry" ng-hide="loading">
+                        <div class="room">{{item.room}}</div>
+                        <div class="image"><img ng-src="{{item.speakerImgUrl}}" /></div>
+                        <div class="text"><span class="highlight">{{item.time}}</span> {{item.title}} <span class="warning">{{item.speakers}}</span></div>
                     </div>
                 </li>
 
                 <li>
                     <div ng-controller="VotingController">
-                        <h1>Top talks</h1>
-                        <h2 ng-hide="hasTopTalksOfWeek || hasTopTalksOfDay"><br>Loading...</h2>
+                        <h1 class="bestof">Top Talks Overall</h1>
+                        <h2 ng-hide="hasTopTalksOfWeek">Loading...</h2>
                         <h2 class="bestof" ng-show="hasTopTalksOfWeek">Top Talks Overall</h2>
                         <div ng-repeat="talk in topTalksOfWeek" class="listEntry">
                             <div class="room">{{$index + 1}}</div>
                             <div class="image"><img ng-src="{{talk.scheduleItem.speakerImgUrl}}" /></div>
                             <div class="text"><span class="highlight">{{talk.likes}}</span> {{talk.scheduleItem.title}} <span class="warning">{{talk.scheduleItem.speakers}}</span></div>
                         </div>
-                        <h2 class="bestof" ng-show="hasTopTalksOfDay">Today's Top Talks</h2>
+                        <h2 class="bestof">Today's Top Talks</h2>
+                        <h2 ng-hide="hasTopTalksOfDay">Loading...</h2>
                         <div ng-repeat="talk in topTalksOfDay" class="listEntry">
                             <div class="room">{{$index + 1}}</div>
                             <div class="image"><img ng-src="{{talk.scheduleItem.speakerImgUrl}}" /></div>
@@ -260,8 +255,9 @@
                 <li>
                     <div ng-controller="GameLeaderboardController">
                         <h1>Overall game leaderboard</h1>
-                        <p ng-hide="leaderboard">No data</p>
-                        <div ng-repeat="lb in leaderboard|limitTo:7" class="listEntry">
+                        <h2></h2>
+                        <h2 ng-show="loading">Loading...</h2>
+                        <div ng-repeat="lb in leaderboard|limitTo:7" class="listEntry" ng-hide="loading">
                             <div class="gamePoints">{{lb.points}}</div>
                             <div class="image"><img ng-src="{{lb.pictureUrl}}" /></div>
                             <div class="text error gameUsername">
