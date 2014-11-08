@@ -62,13 +62,8 @@
             <div ng-repeat="lb in leaderboard|limitTo:7" class="listEntry" ng-hide="loading">
                 <div class="gamePoints">{{lb.points}}</div>
                 <div class="image"><img ng-src="{{lb.pictureUrl}}"/></div>
-                <div class="text error gameUsername">
+                <div class="text warning">
                     {{lb.name}}
-                </div>
-                <div class="beaconsAndAchievements">
-                    <p class="warning">Unlocked</p>
-                    <p><span class="highlight">{{lb.numberOfBeacons}}</span> beacons</p>
-                    <p><span class="highlight">{{lb.numberOfAchievements}}</span> achievements</p>
                 </div>
             </div>
         </div>

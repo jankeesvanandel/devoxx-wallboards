@@ -9,14 +9,14 @@ angular.module('VotingService', []).factory('VotingService', ['$http', '$q', '$t
 
             $timeout(function() {
                 var data = [
-                    { talkId: "1317" },
-                    { talkId: "1352" },
-                    { talkId: "1351" },
-                    { talkId: "1380" }
+                    { talkId: "1420" },
+                    { talkId: "1704" },
+                    { talkId: "1705" },
+                    { talkId: "1712" }
 
                 ];
                 defer.resolve(data);
-            }, 500);
+            }, 5);
 
             //$http.get(topOfWeekUrl).success(function(data, status, headers, config) {
             //    defer.resolve(data);
@@ -30,14 +30,14 @@ angular.module('VotingService', []).factory('VotingService', ['$http', '$q', '$t
 
             $timeout(function() {
                 var data = [
-                    { talkId: "1461" },
-                    { talkId: "1452" },
-                    { talkId: "1445" },
-                    { talkId: "1315" }
+                    { talkId: "1712" },
+                    { talkId: "1805" },
+                    { talkId: "1810" },
+                    { talkId: "1832" }
 
                 ];
                 defer.resolve(data);
-            }, 500);
+            }, 5);
 
             //$http.get(topOfDayUrl).success(function(data, status, headers, config) {
             //    defer.resolve(data);

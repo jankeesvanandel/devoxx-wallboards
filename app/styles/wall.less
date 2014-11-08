@@ -1,6 +1,7 @@
 * {
     font-family: 'Lato';
-    margin: 0; pading: 0;
+    margin: 0;
+    pading: 0;
 }
 
 body {
@@ -8,8 +9,8 @@ body {
 }
 
 h1 {
-  font-size: 2em;
-  text-indent: 4px;
+    font-size: 2em;
+    text-indent: 4px;
 }
 
 .screen(@url, @width, @height) {
@@ -24,20 +25,20 @@ h1 {
 }
 
 #hallway {
-  .screen(url('../images/dv14-hallwall.jpg'), 1280px, 800px);
+    .screen(url('../images/dv14-hallwall.jpg'), 1280px, 800px);
 }
 
 #cinema {
-  margin-top: 130px;
-  .screen(url('../images/dv14-cinemawall.jpg'), 1920px, 817px);
+    margin-top: 130px;
+    .screen(url('../images/dv14-cinemawall.jpg'), 1920px, 817px);
 }
 
 #hallway #schedule {
-  right: 40px;
+    right: 40px;
 }
 
 #cinema #schedule {
-  left: 240px;
+    left: 240px;
 }
 
 #carousel {
@@ -57,8 +58,8 @@ h1 {
         margin: 0;
         padding: 0;
 
-                animation: carouselAnim 30s infinite;
-           -moz-animation: carouselAnim 30s infinite;
+        animation: carouselAnim 30s infinite;
+        -moz-animation: carouselAnim 30s infinite;
         -webkit-animation: carouselAnim 30s infinite;
 
         > li {
@@ -128,16 +129,6 @@ h1 {
                     color: #ff4520;
                 }
 
-                .lastDevoxxDay {
-                    text-align: center;
-
-                    p {
-                        margin: 20px;
-                        font-size: 1.5em;
-                        color: #fff;
-                    }
-                }
-
                 .gamePoints {
                     float: left;
                     width: 200px;
@@ -149,18 +140,6 @@ h1 {
                     vertical-align: middle;
                 }
 
-                .gameUsername {
-                    width: 280px;
-                    float: left;
-                }
-
-                .beaconsAndAchievements {
-                    float: right;
-                    width: 170px;
-                    font-size: 1.3em;
-                    word-wrap: normal;
-                    margin: 3px;
-                }
             }
         }
     }

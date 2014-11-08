@@ -1,5 +1,8 @@
 var wallApp = angular.module('wallApp', ['VotingService']);
 
+var eventId = "13";
+var twitterSearchCriteria = 'devoxx';
+
 wallApp.controller('NoticeController', [ '$scope', function ($scope) {
 
     var self = this;
@@ -24,9 +27,7 @@ wallApp.controller('NoticeController', [ '$scope', function ($scope) {
                 $scope.notice = self.notices[noticeIndex];
                 noticeIndex++;
             }
-
         });
-
     }
 }]);
 
@@ -45,7 +46,7 @@ wallApp.controller('TwallController', ['$http', '$scope', function ($http, $scop
 
     this.refreshRemoteData = function () {
 
-        $http.get(baseUri + "twitter/devoxx")
+        $http.get(baseUri + "twitter/" + twitterSearchCriteria)
             .then(function (data) {
 
                 if ("" == data.data) {
@@ -326,7 +327,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
             function preLoadSpeakerImageUrls(done) {
                 console.log('Preloading all speaker images...');
                 try {
-                    var fullScheduleUrl = baseUriV1 + "events/10/speakers";
+                    var fullScheduleUrl = baseUriV1 + "events/" + eventId + "/speakers";
                     $http.get(fullScheduleUrl)
                         .then(function (data, code) {
                             if ("" == data.data) {
@@ -369,7 +370,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
     this.refreshRemoteData = function () {
 
-        $http.get(baseUriV1 + "events/10/schedule")
+        $http.get(baseUriV1 + "events/" + eventId + "/schedule")
             .then(function (data, code) {
                 if ("" == data.data) {
                     console.error('Failed to call CFP REST');
@@ -553,6 +554,7 @@ wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", f
     var refresh = function () {
         $timeout(function () {
             $scope.$apply(function () {
+                console.log('Start VotingService');
                 VotingService.topOfWeek().then(function (data) {
                     var filteredData = filterKeyNotes(enrich(data));
                     $scope.topTalksOfWeek = filteredData.slice(0, 3);
