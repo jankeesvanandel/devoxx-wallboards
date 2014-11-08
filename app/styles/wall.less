@@ -1,35 +1,35 @@
-* { margin: 0; pading: 0; }
+* {
+    font-family: 'Lato';
+    margin: 0; pading: 0;
+}
 
-body { background-color: black; }
+body {
+    background-color: black;
+}
 
 h1 {
-  font-family: 'Lato';
   font-size: 2em;
   text-indent: 4px;
 }
 
-.screen(@url) {
+.screen(@url, @width, @height) {
     background: @url no-repeat;
     border: none;
     height: @height;
     width: @width;
     overflow: hidden;
     position: absolute;
-    top:0px;
-    left:0px;
+    top: 0;
+    left: 0;
 }
 
 #hallway {
-  @width: 1280px;
-  @height: 800px;
-  .screen(url('../images/dv14-hallwall.jpg'));
+  .screen(url('../images/dv14-hallwall.jpg'), 1280px, 800px);
 }
 
 #cinema {
-  @width: 1920px;
-  @height: 817px;
   margin-top: 130px;
-  .screen(url('../images/dv14-cinemawall.jpg'));
+  .screen(url('../images/dv14-cinemawall.jpg'), 1920px, 817px);
 }
 
 #hallway #schedule {
@@ -40,90 +40,167 @@ h1 {
   left: 240px;
 }
 
-#schedule22 {
+#carousel {
+    width: 750px;
+    height: 700px;
+    top: 70px;
+    right: 50px;
     position: absolute;
-    top: 80px;
-    width: 775px;
-    height: 100%;
     overflow: hidden;
 
-    > div { // SideScroller
-
-        display: inline-block;
+    > .panes {
+        width: 400%;
+        left: 0;
+        list-style: none;
+        position: relative;
         overflow: hidden;
-        width: 2320px;
-        height: 100%;
+        margin: 0;
+        padding: 0;
 
-    }
+                animation: carouselAnim 30s infinite;
+           -moz-animation: carouselAnim 30s infinite;
+        -webkit-animation: carouselAnim 30s infinite;
 
-    .container {
-        display: inline-block;
-        vertical-align: middle;
-        width: 775px;
-
-         .border {
-            > div {
-                width: 750px;
-                height: 82px;
-                clear:both;
-                margin: 10px;
-                background: rgba(10,10,10,0.9);
-                -webkit-border-radius: 10px;
-                border: solid 1px #ebeb00;
-                -webkit-box-shadow: #ebeb00 0 0 5px;
-                overflow: hidden;
-            }
-         }
-
-        .room {
-            font-family: 'Lato';
-            font-size: 3em;
-            color: white;
-            text-shadow: 2px 2px 2px #000;
+        > li {
+            position: relative;
             float: left;
-            width: 60px;
-            height: 66px;
-            vertical-align: middle;
-            text-align: center;
-            margin-top: 10px;
-        }
+            width: 25%;
 
-        .image{
-            margin-top: 8px;
-            img {
-                width: 60px;
-                height: 66px;
-                float: left;
-            }
-        }
-
-        .talk {
-            margin-left: 125px;
-            margin-right: 5px;
-            font-family: 'Lato';
-            font-size: 1.40em;
-            font-weight: bold;
-            line-height: 1.1em;
-            color: white;
-            float: none;
-            text-shadow: 2px 2px 2px #000;
-
-            .time {
+            h1, h2 {
                 color: #ebeb00;
-                font-size: 0.95em;
+                font-weight: bolder;
+                text-shadow: #ebeb00 0 0 2px;
+                -webkit-text-stroke: 2px #ebeb00;
+                letter-spacing: 5px;
+                text-align: center;
             }
 
-            .speaker {
-                color: orange; //rgb(0,122,224);
-                font-size: 0.95em;
-                clear: left;
-            }
+            .listEntry {
+                margin: 3px 5px;
+                position: relative;
+                background-color: #000;
+                color: #fff;
+                height: 75px;
+                clear: both;
+                overflow-y: hidden;
+                border: 1px solid #ebeb00;
+                -webkit-border-radius: 10px;
+                -webkit-box-shadow: #ebeb00 0 0 5px;
 
+                .room {
+                    float: left;
+                    width: 60px;
+                    position: relative;
+                    font-size: 3em;
+                    margin: 8px 0 0;
+                    padding: 0;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+
+                .image {
+                    margin-top: 4px;
+                    margin-right: 5px;
+                    float: left;
+
+                    img {
+                        width: 60px;
+                        height: 66px;
+                    }
+                }
+
+                .text {
+                    vertical-align: middle;
+                    font-size: 1.3em;
+                    word-wrap: normal;
+                    margin: 3px;
+                }
+
+                .highlight {
+                    color: #ebeb00;
+                }
+
+                .warning {
+                    color: orange;
+                }
+
+                .error {
+                    color: #ff4520;
+                }
+
+                .lastDevoxxDay {
+                    text-align: center;
+
+                    p {
+                        margin: 20px;
+                        font-size: 1.5em;
+                        color: #fff;
+                    }
+                }
+
+                .gamePoints {
+                    float: left;
+                    width: 200px;
+                    position: relative;
+                    font-size: 3em;
+                    margin: 8px 0 0;
+                    padding: 0;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+
+                .gameUsername {
+                    width: 280px;
+                    float: left;
+                }
+
+                .beaconsAndAchievements {
+                    float: right;
+                    width: 170px;
+                    font-size: 1.3em;
+                    word-wrap: normal;
+                    margin: 3px;
+                }
+            }
         }
     }
-
 }
 
+@keyframes carouselAnim {
+    0%    { left:0; }
+    20%   { left:0; }
+    25%   { left:-100%; }
+    45%   { left:-100%; }
+    50%   { left:-200%; }
+    70%   { left:-200%; }
+    75%   { left:-300%; }
+    95%   { left:-300%; }
+    100%  { left:0; }
+}
+
+@-moz-keyframes carouselAnim {
+    0%    { left:0; }
+    20%   { left:0; }
+    25%   { left:-100%; }
+    45%   { left:-100%; }
+    50%   { left:-200%; }
+    70%   { left:-200%; }
+    75%   { left:-300%; }
+    95%   { left:-300%; }
+    100%  { left:0; }
+}
+
+@-webkit-keyframes carouselAnim {
+    0%    { left:0; }
+    20%   { left:0; }
+    25%   { left:-100%; }
+    45%   { left:-100%; }
+    50%   { left:-200%; }
+    70%   { left:-200%; }
+    75%   { left:-300%; }
+    95%   { left:-300%; }
+    100%  { left:0; }
+}
 
 #tweets {
     position: absolute;
@@ -166,7 +243,6 @@ h1 {
         .tweet {
             margin-left: 5px;
             margin-right: 5px;
-            font-family: 'Lato';
             font-size: 1.40em;
             font-weight: bold;
             line-height: 1.2em;
@@ -188,11 +264,10 @@ h1 {
 
 #notice {
     opacity: 0.8;
-    font-family: 'lato';
     font-size: 2em;
     color: #ffffff;
     background-color: black;
-    -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0 0px 10px rgba(0,0,0,0.7);
     position: absolute;
     top: 10px;
     width: 100%;
