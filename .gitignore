@@ -18,3 +18,4 @@ test_out
 coverage
 
 dist.zip
+publish_to_aws.sh
