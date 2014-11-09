@@ -593,7 +593,8 @@ wallApp.controller('GameLeaderboardController', ["$scope", "$timeout", "GameLead
     }
 
     function reloadLeaderboard() {
-        $timeout(loadLeaderboard, (60*1000) * 1);
+        console.log('reload leaderboard');
+        $timeout(loadLeaderboard, 60000 * 1);
     }
 
     loadLeaderboard();
