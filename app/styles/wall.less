@@ -51,16 +51,18 @@ h1 {
 
     > .panes {
         width: 400%;
-        left: -300%;
+        left: 0;
+//        left: -300%;
         list-style: none;
         position: relative;
         overflow: hidden;
         margin: 0;
         padding: 0;
 
-//        animation: carouselAnim 30s infinite;
-//        -moz-animation: carouselAnim 30s infinite;
-//        -webkit-animation: carouselAnim 30s infinite;
+        @animationDuration: 40s;
+        animation: carouselAnim @animationDuration infinite;
+        -moz-animation: carouselAnim @animationDuration infinite;
+        -webkit-animation: carouselAnim @animationDuration infinite;
 
         > li {
             position: relative;
