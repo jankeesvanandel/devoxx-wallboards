@@ -579,14 +579,24 @@ wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", f
 
 wallApp.controller('GameLeaderboardController', ["$scope", "$timeout", "GameLeaderboardService", function ($scope, $timeout, GameLeaderboardService) {
     $scope.loading = true;
-    GameLeaderboardService.loadLeaderboard().then(function(data) {
-        $scope.leaderboard = data;
-        $scope.loading = false;
-    }, function(error) {
-        $scope.leaderboard = [];
-        $scope.loading = false;
-        console.log('Error loading leaderboard: ', error);
-    });
+
+    function loadLeaderboard() {
+        console.log('Loading game leaderboard');
+        GameLeaderboardService.loadLeaderboard().then(function (data) {
+            $scope.leaderboard = data;
+            $scope.loading = false;
+        }, function (error) {
+            $scope.leaderboard = [];
+            $scope.loading = false;
+            console.log('Error loading leaderboard: ', error);
+        }).then(reloadLeaderboard, reloadLeaderboard);
+    }
+
+    function reloadLeaderboard() {
+        $timeout(loadLeaderboard, (60*1000) * 1);
+    }
+
+    loadLeaderboard();
 }]);
 
 wallApp.factory('GameLeaderboardService', ['$http', '$q', function($http, $q) {
