@@ -13,24 +13,24 @@ h1 {
     text-indent: 4px;
 }
 
-.screen(@url, @width, @height) {
+.screen(@url, @width, @height, @top) {
     background: @url no-repeat;
     border: none;
     height: @height;
     width: @width;
     overflow: hidden;
     position: absolute;
-    top: 0;
+    top: @top;
     left: 0;
 }
 
 #hallway {
-    .screen(url('../images/dv14-hallwall.jpg'), 1280px, 800px);
+    .screen(url('../images/dv14-hallwall.jpg'), 1280px, 800px, 70px);
 }
 
 #cinema {
     margin-top: 130px;
-    .screen(url('../images/dv14-cinemawall.jpg'), 1920px, 817px);
+    .screen(url('../images/dv14-cinemawall.jpg'), 1920px, 817px, 0);
 }
 
 #hallway #schedule {
