@@ -524,7 +524,8 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 }]);
 
 wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", function ($scope, $timeout, VotingService) {
-
+    $scope.loadingDay = true;
+    $scope.loadingWeek = true;
     function enrich(talks) {
         var schedule = lsc.getSchedule();
         angular.forEach(talks, function (value, key) {
@@ -553,6 +554,7 @@ wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", f
                     var filteredData = filterKeyNotes(enrich(data));
                     $scope.topTalksOfWeek = filteredData.slice(0, 3);
                     $scope.hasTopTalksOfWeek = (filteredData.length > 0);
+                    $scope.loadingWeek = false;
                 }, function(err) {
                     console.log("In Error");
                 });
@@ -560,6 +562,7 @@ wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", f
                     var filteredData = filterKeyNotes(enrich(data));
                     $scope.topTalksOfDay = filteredData.slice(0, 4);
                     $scope.hasTopTalksOfDay = (filteredData.length > 0);
+                    $scope.loadingDay = false;
                 }, function(err) {
                     console.log("In Error");
                 });
