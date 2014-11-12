@@ -1,7 +1,7 @@
 angular.module('VotingService', []).factory('VotingService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 
-    var topOfWeekUrl = "http://172.19.0.40:3000/bestofweek";
-    var topOfDayUrl = "http://172.19.0.40:3000/bestoftoday";
+    var topOfWeekUrl = "http://172.19.0.252:3000/bestofweek";
+    var topOfDayUrl = "http://172.19.0.252:3000/bestoftoday";
 
     return {
         topOfWeek: function() {
