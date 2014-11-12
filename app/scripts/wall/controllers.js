@@ -290,7 +290,6 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
     $scope.scheduleNow = [];
     $scope.scheduleNext = [];
-    $scope.scrollClass = "";
     $scope.loading = true;
 
     var speakers = [];
@@ -421,11 +420,6 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
         $scope.scheduleNow = filterTime(nowAndNext[0]);
         $scope.scheduleNext = filterTime(nowAndNext[1]);
-        if ($scope.scheduleNext.length != 0) {
-            $scope.scrollClass = "sidescroll";
-        } else {
-            $scope.scrollClass = "";
-        }
 
         console.log("Slots", slots, "NowAndNext", nowAndNext);
         console.log("NOW:", $scope.scheduleNow);
