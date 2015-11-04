@@ -1,3 +1,5 @@
+# Obsolete! The fork devoxx/devoxx-wallboards is now used..
+
 ![Build status](https://devoxx.ci.cloudbees.com/job/cfp-speaker/badge/icon)
 
 Devoxx Wallboards Application
